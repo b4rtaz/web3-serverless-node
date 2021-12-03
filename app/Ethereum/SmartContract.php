@@ -33,7 +33,8 @@ class SmartContract
         $methodAbi = $this->getMethodAbi($methodName);
 
         $outputNames = [];
-        foreach ($methodAbi->outputs as $item) {
+        foreach ($methodAbi->outputs as $item)
+        {
             $outputNames[] = $item->name;
         }
 

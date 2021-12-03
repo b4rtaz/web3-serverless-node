@@ -2,31 +2,51 @@
 
 namespace App\Ethereum;
 
-use App\Core\FileCache;
 use App\Core\ConfigurationProvider;
+use App\Core\ForeverCache;
 
 class SmartContractCachedCaller
 {
     public function __construct(
         private SmartContractCaller $caller,
         private ConfigurationProvider $configurationProvider,
-        private FileCache $cache)
+        private ForeverCache $cache)
     {
     }
 
     public function callMethod(string $contractName, string $methodName, array $rawParameters)
     {
-        $cacheKey = 'caller|' . $methodName . '|' . implode('|', array_values($rawParameters));
+        $cacheKey = 'callMethod|' . implode('|', array_merge([$contractName, $methodName], array_values($rawParameters)));
 
         $config = $this->configurationProvider->get('smartContracts', $contractName);
-        $result = $this->cache->tryGet($cacheKey, $config['cacheTtl']);
-        
-        if ($result === null)
+        $ttl = $config['cacheTtl'];
+
+        if ($ttl > 0)
         {
-            $result = $this->caller->callMethod($contractName, $methodName, $rawParameters);
-            $this->cache->set($cacheKey, $result);
+            $cacheItem = $this->cache->get($cacheKey, $ttl);
+            if ($cacheItem->isRecent)
+            {
+                return $cacheItem->value;
+            }
         }
-        
-        return $result;
+
+        try
+        {
+            $value = $this->caller->callMethod($contractName, $methodName, $rawParameters);
+
+            if ($ttl > 0)
+            {
+                $this->cache->set($cacheKey, $value);
+            }
+            return $value;
+        }
+        catch (\Exception $ex)
+        {
+            if ($ttl > 0 && $cacheItem->isExists)
+            {
+                return $cacheItem->value;
+            }
+            throw $ex;
+        }
     }
 }
