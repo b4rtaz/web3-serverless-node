@@ -16,7 +16,7 @@ git clone https://github.com/b4rtaz/web3-serverless-node.git
 composer install
 ```
 
-3. Set `basePath` in `configs/app.php` (if you deploy this app in root directory than `basePath` should be `/`).
+3. Set `basePath` in `configs/app.php` (if you deploy this app in root directory then `basePath` should be `/`).
 
 4. Add Ethereum networks in `configs/ethereumNetworks.php`.
 
@@ -31,13 +31,13 @@ composer install
 
 ### Example Requests
 
-`GET https://your-server/contracts/weth-bnb-pancake-pair/name`
+`GET https://your-server/contracts/eth-wbnb-pancake-pair/name`
 
 ```json
 "Pancake LPs"
 ```
 
-`GET https://your-server/contracts/weth-bnb-pancake-pair/getReserves`
+`GET https://your-server/contracts/eth-wbnb-pancake-pair/getReserves`
 
 ```json
 {
