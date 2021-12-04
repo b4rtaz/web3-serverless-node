@@ -1,6 +1,10 @@
 # Web3 Serverless Node
 
-This is a simple Web3 serverless node. It requires PHP8+.
+This is a simple Web3 serverless node. It requires PHP8+ on your server. It's easy to deploy and it's lightweight (~10MB with all dependiencies).
+
+**REST API - Supported Function**
+
+* <a href="#calling-smart-contract-method">🚀 Calling Smart Contract Method</a>
 
 ## ⚡ How to Build
 
@@ -10,7 +14,7 @@ This is a simple Web3 serverless node. It requires PHP8+.
 git clone https://github.com/b4rtaz/web3-serverless-node.git
 ```
 
-2. Install dependencies with [composer](https://getcomposer.org/):
+2. Install dependencies ([Composer](https://getcomposer.org/) is required):
 
 ```
 composer install
@@ -20,11 +24,11 @@ composer install
 
 4. Add Ethereum networks in `configs/ethereumNetworks.php`.
 
-5. Add smart contracts in `configs/smartContracts.php` and ABI JSON files in `storage/abi`.
+5. Add smart contracts in `configs/smartContracts.php` and ABI JSON files in `storage/abi` folder.
 
-## 🚀 Calling Smart Contract Method
+<h2 id="calling-smart-contract-method">🚀 Calling Smart Contract Method</h2>
 
-`https://your-server/contracts/{contractName}/{methodName}?arg1=value1&arg2=value2...`
+`GET https://your-server/contracts/{contractName}/{methodName}?arg1=value1&arg2=value2...`
 
 * `contractName` - contract name defined in `configs/smartContracts.php`
 * `methodName` - method name defined in contract ABI.
