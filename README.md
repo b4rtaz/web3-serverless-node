@@ -2,7 +2,7 @@
 
 This is a simple Web3 serverless node. It requires PHP8+ on your server. It's easy to deploy and it's lightweight (~10MB with all dependiencies).
 
-**REST API - Supported Function**
+**REST API - Supported Functions**
 
 * <a href="#calling-smart-contract-method">🚀 Calling Smart Contract Method</a>
 
