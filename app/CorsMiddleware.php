@@ -21,12 +21,11 @@ class CorsMiddleware implements MiddlewareInterface
         $requestHeaders = $request->getHeaderLine('Access-Control-Request-Headers');
 
         $allowedOrigins = $this->configurationProvider->get('app', 'allowedOrigins');
-        $httpOrigin = $_SERVER['HTTP_REFERER'];
-
-        if (in_array($httpOrigin, $allowedOrigins))
+        $referer = $_SERVER['HTTP_REFERER'];
+        if (!empty($referer) && in_array($referer, $allowedOrigins))
         {
             $response = $response
-                ->withHeader('Access-Control-Allow-Origin', '*')
+                ->withHeader('Access-Control-Allow-Origin', $referer)
                 ->withHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
                 ->withHeader('Access-Control-Allow-Headers', $requestHeaders ?: '*');
         }
