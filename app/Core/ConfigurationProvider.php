@@ -6,7 +6,7 @@ class ConfigurationProvider
 {
     private static $cache = [];
 
-    public function get(string $group, string $key): int|float|string|array
+    public function get(string $group, string $key): int|float|string|array|null
     {
         if (!array_key_exists($group, self::$cache))
         {

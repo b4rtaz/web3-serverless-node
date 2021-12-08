@@ -31,6 +31,11 @@ class SmartContractProvider
     private function readAbi(string $fileName)
     {
         $path = APP_PATH . '/../storage/abi/' . $fileName;
-        return file_get_contents($path);
+        $abi = file_get_contents($path);
+        if ($abi === false)
+        {
+            throw new \Exception('Cannot read abi ' . $path);
+        }
+        return $abi;
     }
 }

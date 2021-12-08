@@ -3,13 +3,15 @@
 namespace App\Controllers;
 
 use App\Ethereum\SmartContractCachedCaller;
+use App\Core\ConfigurationProvider;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class SmartContractController
 {
     public function __construct(
-        private SmartContractCachedCaller $smartContractCaller)
+        private SmartContractCachedCaller $smartContractCaller,
+        private ConfigurationProvider $configurationProvider)
     {
     }
 
@@ -22,6 +24,13 @@ class SmartContractController
         $response
             ->getBody()
             ->write(json_encode($result));
+
+        $allowedOrigins = $this->configurationProvider->get('http', 'allowedOrigins');
+        $httpOrigin = $_SERVER['HTTP_ORIGIN'];
+        if (in_array($httpOrigin, $allowedOrigins))
+        {
+            $response = $response->withHeader('Access-Control-Allow-Origin', $httpOrigin);
+        }
 
         return $response
             ->withHeader('Content-Type', 'application/json')
