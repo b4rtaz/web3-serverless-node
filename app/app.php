@@ -1,6 +1,7 @@
 <?php
 
 use App\Core\ConfigurationProvider;
+use App\CorsMiddleware;
 use DI\Bridge\Slim\Bridge;
 
 error_reporting(E_ERROR | E_PARSE);
@@ -13,6 +14,9 @@ $configurationProvider = $app->getContainer()->get(ConfigurationProvider::class)
 $debug = $configurationProvider->get('app', 'debug');
 
 $app->setBasePath($configurationProvider->get('app', 'basePath'));
+
+$app->add(CorsMiddleware::class);
+$app->addRoutingMiddleware();
 
 require APP_PATH . '/routes.php';
 
